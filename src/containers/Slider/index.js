@@ -43,6 +43,7 @@ const Slider = () => {
                   type="radio"
                   name="radio-button"
                   checked={idx === radioIdx}
+                  onChange={() => setIndex(radioIdx)} // Met à jour l'état quand le bullet point est cliqué
                 />
               ))}
             </div>
