@@ -13,25 +13,25 @@ const EventList = () => {
   const { data, error } = useData();
   const [type, setType] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const filteredEvents = (
-    (!type
-      ? data?.events
-      : data?.events) || []
-  ).filter((event, index) => {
-    if (
-      (currentPage - 1) * PER_PAGE <= index &&
-      PER_PAGE * currentPage > index
-    ) {
-      return true;
-    }
-    return false;
-  });
-  const changeType = (evtType) => {
-    setCurrentPage(1);
-    setType(evtType);
-  };
-  const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
+  // Filtre les événements par type
+
+  const filteredByType = (data?.events || []).filter(
+    (event) => !type || event.type === type
+  );
+
+  // Calcul des indices de début et de fin pour la pagination
+  const startIndex = (currentPage - 1) * PER_PAGE;
+  const endIndex = startIndex + PER_PAGE;
+
+  // Application de la pagination sur les événements filtrés
+  const filteredEvents = filteredByType.slice(startIndex, endIndex);
+
+  // Calcul du nombre total des pages
+  const pageNumber = Math.max(1, Math.ceil(filteredByType.length / PER_PAGE));
+
+  // Obtenir la liste des types d'événements
   const typeList = new Set(data?.events.map((event) => event.type));
+
   return (
     <>
       {error && <div>An error occured</div>}
@@ -42,7 +42,7 @@ const EventList = () => {
           <h3 className="SelectTitle">Catégories</h3>
           <Select
             selection={Array.from(typeList)}
-            onChange={(value) => (value ? changeType(value) : changeType(null))}
+            onChange={(value) => (value ? setType(value) : setType(null))}
           />
           <div id="events" className="ListContainer">
             {filteredEvents.map((event) => (
