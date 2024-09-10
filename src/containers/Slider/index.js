@@ -10,6 +10,7 @@ const Slider = () => {
   const byDateDesc = data?.focus.sort(
     (evtA, evtB) => (new Date(evtA.date) < new Date(evtB.date) ? +1 : 1) // Affichage des événements du plus ancien au plus récent
   );
+
   const nextCard = () => {
     setIndex((prevIndex) =>
       prevIndex < byDateDesc.length - 1 ? prevIndex + 1 : 0
@@ -18,9 +19,8 @@ const Slider = () => {
 
   useEffect(() => {
     const timer = setInterval(nextCard, 5000);
-    return () => clearInterval(timer); // Nettoyage lorsque le composant est démonté
-  }, [byDateDesc.length]); // Ajout du tableau de dépendances pour que l'effet soit ré-exécuté lorsque la longueur des événements change
-
+    return () => clearInterval(timer); // nettoyer l'intervalle
+  }, [byDateDesc.length]); // re éxécuter l'effet si la longueur du tableau change
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
