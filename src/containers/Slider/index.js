@@ -8,17 +8,19 @@ const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
   const byDateDesc = data?.focus.sort(
-    (evtA, evtB) => (new Date(evtA.date) < new Date(evtB.date) ? -1 : 1) // a modifier pour ordre des événements
+    (evtA, evtB) => (new Date(evtA.date) < new Date(evtB.date) ? +1 : 1) // Affichage des événements du plus ancien au plus récent
   );
   const nextCard = () => {
-    setTimeout(
-      () => setIndex(index < byDateDesc.length - 1 ? index + 1 : 0),
-      5000
+    setIndex((prevIndex) =>
+      prevIndex < byDateDesc.length - 1 ? prevIndex + 1 : 0
     );
   };
+
   useEffect(() => {
-    nextCard();
-  });
+    const timer = setInterval(nextCard, 5000);
+    return () => clearInterval(timer); // Nettoyage lorsque le composant est démonté
+  }, [byDateDesc.length]); // Ajout du tableau de dépendances pour que l'effet soit ré-exécuté lorsque la longueur des événements change
+
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
