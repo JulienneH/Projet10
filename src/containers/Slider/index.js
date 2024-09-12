@@ -46,7 +46,7 @@ const Slider = () => {
                 <input
                   key={`${radioIdx + 1}`}
                   type="radio"
-                  name="radio-button"
+                  name={`radio-button-${idx}`}
                   checked={index === radioIdx} // coche le bullet point si son index correspond à celui de la diapo actuelle
                   onChange={() => setIndex(radioIdx)} // Met à jour l'état quand le bullet point est cliqué
                 />
