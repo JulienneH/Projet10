@@ -24,37 +24,35 @@ const Slider = () => {
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
-        <>
-          <div
-            key={event.id}
-            className={`SlideCard SlideCard--${
-              index === idx ? "display" : "hide"
-            }`}
-          >
-            <img src={event.cover} alt="forum" />
-            <div className="SlideCard__descriptionContainer">
-              <div className="SlideCard__description">
-                <h3>{event.title}</h3>
-                <p>{event.description}</p>
-                <div>{getMonth(new Date(event.date))}</div>
-              </div>
+        <div
+          key={event.id}
+          className={`SlideCard SlideCard--${
+            index === idx ? "display" : "hide"
+          }`}
+        >
+          <img src={event.cover} alt="forum" />
+          <div className="SlideCard__descriptionContainer">
+            <div className="SlideCard__description">
+              <h3>{event.title}</h3>
+              <p>{event.description}</p>
+              <div>{getMonth(new Date(event.date))}</div>
             </div>
           </div>
-          <div className="SlideCard__paginationContainer">
-            <div className="SlideCard__pagination">
-              {byDateDesc.map((_, radioIdx) => (
-                <input
-                  key={`${radioIdx + 1}`}
-                  type="radio"
-                  name={`radio-button-${idx}`}
-                  checked={index === radioIdx} // coche le bullet point si son index correspond à celui de la diapo actuelle
-                  onChange={() => setIndex(radioIdx)} // Met à jour l'état quand le bullet point est cliqué
-                />
-              ))}
-            </div>
-          </div>
-        </>
+        </div>
       ))}
+      <div className="SlideCard__paginationContainer">
+        <div className="SlideCard__pagination">
+          {byDateDesc.map((event, radioIdx) => (
+            <input
+              key={event.id}
+              type="radio"
+              name="pagination"
+              checked={index === radioIdx} // coche le bullet point si son index correspond à celui de la diapo actuelle
+              onChange={() => setIndex(radioIdx)} // Met à jour l'état quand le bullet point est cliqué
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
