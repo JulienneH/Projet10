@@ -7,7 +7,7 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
-  const byDateDesc = data?.focus.sort(
+  const byDateDesc = (data?.focus || []).sort(
     (evtA, evtB) => (new Date(evtA.date) < new Date(evtB.date) ? +1 : 1) // Affichage des événements du plus ancien au plus récent
   );
 
@@ -20,7 +20,7 @@ const Slider = () => {
   useEffect(() => {
     const timer = setInterval(nextCard, 5000);
     return () => clearInterval(timer); // nettoyer l'intervalle
-  }, [byDateDesc.length]); // re éxécuter l'effet si la longueur du tableau change
+  }, [byDateDesc ? byDateDesc.length : 0]); // re éxécuter l'effet si la longueur du tableau change
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
