@@ -16,19 +16,14 @@ const Page = () => {
   const { data, error } = useData();
 
   // Afficher les données et les erreurs dans la console
-  console.log("data:", data);
-  console.log("error:", error);
+  // console.log("data:", data); console.log("error:", error);
 
   if (error) {
     return <div>Une erreur est survenue : {error.message}</div>;
   }
 
-  if (!data || !data.events || data.events.length === 0) {
-    return <div>Chargement...</div>;
-  }
-
   // Trouver le dernier événement
-  const lastEvent = data.events[data.events.length - 1];
+  const lastEvent = data?.events?.[data.events.length - 1];
 
   return (
     <>
